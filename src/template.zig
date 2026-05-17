@@ -92,7 +92,7 @@ pub const TemplateEngine = struct {
         return body;
     }
 
-    fn renderString(
+    pub fn renderString(
         _: *TemplateEngine,
         allocator: std.mem.Allocator,
         tpl: []const u8,
@@ -132,9 +132,9 @@ pub const TemplateEngine = struct {
                 }
 
                 if (!found) {
-                    if (std.mem.eql(u8, var_name, "body")) {
-                        try out.appendSlice(allocator, "{{body}}");
-                    }
+                    try out.appendSlice(allocator, "{{");
+                    try out.appendSlice(allocator, var_name);
+                    try out.appendSlice(allocator, "}}");
                 }
 
                 i = token_end + 2;
